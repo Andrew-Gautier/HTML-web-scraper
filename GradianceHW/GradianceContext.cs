@@ -10,7 +10,7 @@ namespace GradianceHW
 {
     class GradianceContext : IDisposable
     {
-        private const string c_HW_URL = "http://www.newgradiance.com/services/servlet/COTC";
+        private const string c_HW_URL = "https://www.newgradiance.com/services/servlet/COTC";
         
         protected AsyncWebBrowser WebBrowser { get; private set; }
 
@@ -22,9 +22,21 @@ namespace GradianceHW
         public async Task<IEnumerable<GradianceClass>> Login(string username, string password)
         {
             var loginPage = await this.WebBrowser.AsyncNavigate(c_HW_URL);
-
+            if (loginPage == null)
+{
+    Console.WriteLine("Failed to navigate to login page.");
+    // Handle the error, maybe return or throw an exception
+    return null;
+}
             var inputElements = loginPage.GetElementsByTagName("input");
             var formElements = loginPage.GetElementsByTagName("form");
+            // Check if inputElements or formElements are null or empty
+// if (inputElements == null || formElements == null || !inputElements.Any() || !formElements.Any())
+// {
+//     Console.WriteLine("Input or form elements not found on the login page.");
+//     // Handle the error, maybe return or throw an exception
+//     return null;
+// }
 
             HtmlElement usernameTextbox = null;
             HtmlElement passwordTextBox = null;
@@ -34,7 +46,7 @@ namespace GradianceHW
                 {
                     case "userId":
                         usernameTextbox = e;
-                        break;
+                        break; 
                     case "password":
                         passwordTextBox = e;
                         break;
@@ -49,22 +61,30 @@ namespace GradianceHW
                     loginForm = e;
                 }
             }
-
+        if (usernameTextbox == null || passwordTextBox == null || loginForm == null)
+{
+    Console.WriteLine("Username, password, or login form not found on the login page.");
+    // Handle the error, maybe return or throw an exception
+    return null;
+}
             usernameTextbox.SetAttribute("value", username);
             passwordTextBox.SetAttribute("value", password);
-            loginForm.InvokeMember("submit");
+            // Replace loginForm.InvokeMember("submit") with this code
+var submitButton = loginForm.GetElementsByTagName("input").Cast<HtmlElement>()
+                           .FirstOrDefault(e => e.GetAttribute("type") == "image");
+submitButton?.InvokeMember("click");
 
             loginPage = await this.WebBrowser.GetCurrentPage();
-
+            
             inputElements = loginPage.GetElementsByTagName("input");
 
-            var usernameTextBoxCount = inputElements.GetElementsByName("userID").Count;
-
+            var usernameTextBoxCount = inputElements.GetElementsByName("userId").Count;
+            
             if (usernameTextBoxCount > 0)
             {
                 return null;
             }
-
+            
             var classElements = loginPage.GetElementsByTagName("a");
 
             IList<GradianceClass> classes = new List<GradianceClass>();

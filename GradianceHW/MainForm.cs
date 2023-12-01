@@ -48,8 +48,8 @@ namespace GradianceHW
                     MessageBox.Show("Login failed. Please try again.");
                 }
             }
-
-
+            // Debugging statement
+            Console.WriteLine("btn_Login_Click method executed.");
         }
 
         private async void button1_Click(object sender, EventArgs e)
@@ -67,6 +67,8 @@ namespace GradianceHW
 
                 this.groupBox3.Visible = true;
             }
+            // Debugging statement
+            Console.WriteLine("button1_Click method executed.");
         }
 
         private async void button2_Click(object sender, EventArgs e)
@@ -79,6 +81,8 @@ namespace GradianceHW
 
                 await hw.DoHomework();
             }
+            // Debugging statement
+            Console.WriteLine("button2_Click method executed.");
         }
     }
 }

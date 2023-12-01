@@ -16,6 +16,15 @@ namespace GradianceHW
         {
             this.Username = username;
             this.WebBrowser = webBrowser;
+
+            // Debugging statement to check if the constructor is called
+            Console.WriteLine("GradianceUserSession constructor called");
+
+            // Debugging statement to display the username
+            Console.WriteLine("Username: " + this.Username);
+
+            // Debugging statement to display the web browser instance
+            Console.WriteLine("WebBrowser: " + this.WebBrowser);
         }
     }
 }

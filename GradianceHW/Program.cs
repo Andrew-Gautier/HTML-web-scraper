@@ -14,9 +14,11 @@ namespace GradianceHW
         [STAThread]
         static void Main()
         {
+            Console.WriteLine("Starting the application."); // Debugging statement
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
+            Console.WriteLine("Application finished."); // Debugging statement
         }
     }
 }
