@@ -71,18 +71,25 @@ namespace GradianceHW
             Console.WriteLine("button1_Click method executed.");
         }
 
-        private async void button2_Click(object sender, EventArgs e)
+    private async void button2_Click(object sender, EventArgs e)
+{
+    if (lb_Homeworks.SelectedItem != null)
+    {
+        var hw = lb_Homeworks.SelectedItem as GradianceHomework;
+
+        bool areSubmissionsLoaded = await hw.LoadPastSubmissions();
+
+        if (areSubmissionsLoaded)
         {
-            if (lb_Homeworks.SelectedItem != null)
-            {
-                var hw = lb_Homeworks.SelectedItem as GradianceHomework;
-
-                await hw.LoadPastSubmissions();
-
-                await hw.DoHomework();
-            }
-            // Debugging statement
-            Console.WriteLine("button2_Click method executed.");
+            await hw.DoHomework();
         }
+        else
+        {
+            MessageBox.Show("Failed to load past submissions.");
+        }
+    }
+    // Debugging statement
+    Console.WriteLine("button2_Click method executed.");
+}
     }
 }

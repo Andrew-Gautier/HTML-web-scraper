@@ -31,10 +31,13 @@ namespace GradianceHW
 
         public async Task<IEnumerable<GradianceHomework>> GetHomeworks()
         {
+            try{
             // Navigate to the class page
+            Console.WriteLine($"Navigating to class page: {this.Uri.AbsoluteUri}");
             var classPage = await this.WebBrowser.AsyncNavigate(this.Uri.AbsoluteUri);
 
             // Navigate to the direct homework URL
+             Console.WriteLine($"Navigating to homework page: {this.DirectHomework.AbsoluteUri}");
             var homeworkPage = await this.WebBrowser.AsyncNavigate(this.DirectHomework.AbsoluteUri);
 
             IList<GradianceHomework> homeworks = new List<GradianceHomework>();
@@ -55,6 +58,13 @@ namespace GradianceHW
             }
 
             return homeworks;
+            }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred while getting homeworks for {this.Name}: {ex.Message}");
+            throw;
+        }
+            
         }
 
         private GradianceHomework ProcessHomeworkTableRow(HtmlElement table)
